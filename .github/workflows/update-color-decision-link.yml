@@ -1,0 +1,48 @@
+name: Update Color Decision Engine link
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Update Color Decision Engine link
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("index.html")
+          text = path.read_text()
+          marker = '<article class="segment" id="color-decision-engine">'
+          start = text.index(marker)
+          end = text.index('</article>', start) + len('</article>')
+          block = text[start:end]
+          updated = block.replace(
+              'href="#"',
+              'href="https://susanndelgado.github.io/color-decision-engine/"',
+              1,
+          )
+
+          if updated == block:
+              raise SystemExit("Color Decision Engine muted link was not found")
+
+          path.write_text(text[:start] + updated + text[end:])
+          PY
+
+      - name: Commit link update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Link Color Decision Engine project"
+          git push
