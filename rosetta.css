@@ -63,6 +63,15 @@ a {
   text-decoration: none;
 }
 
+.link {
+  color: var(--blue);
+}
+
+.link:hover,
+.link:focus-visible {
+  color: var(--text);
+}
+
 .page {
   width: min(calc(100% - 2rem), var(--page-width));
   margin-inline: auto;
