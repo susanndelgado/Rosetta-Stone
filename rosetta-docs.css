@@ -182,7 +182,7 @@ a {
   text-decoration-color: currentColor;
 }
 
-:where(.segment[id]) .link[href^="#"] {
+:where(.segment[id]) .link[href="#"] {
   color: var(--muted-light);
   text-decoration-color: transparent;
   cursor: default;
